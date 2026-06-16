@@ -62,7 +62,7 @@ The LTC cell combines:
 
 ### Figure
 
-![FlowFake Architecture Placeholder](https://placehold.co/1200x420?text=FlowFake+Architecture+Figure+Placeholder)
+![FlowFake Architecture Placeholder](https://github.com/GhostRider2023/FlowFake/blob/main/Assets/Architecture.jpg)
 
 ## Repository Layout
 
