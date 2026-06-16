@@ -3,46 +3,44 @@
 [![Status](https://img.shields.io/badge/Status-Accepted-success)](#)
 [![Venue](https://img.shields.io/badge/ICML%202026-ML4Audio%20Workshop-blue)](#)
 [![Task](https://img.shields.io/badge/Task-Audio%20Deepfake%20Detection-orange)](#)
-[![Model Size](https://img.shields.io/badge/Parameters-~34K-purple)](#)
-
-FlowFake is a lightweight audio deepfake detector built on **Liquid Time-Constant (LTC)** networks.
-It is designed to generalize across datasets by learning **temporal speech dynamics** rather than dataset-specific spectral fingerprints.
+[![Params](https://img.shields.io/badge/Model-~34K%20Parameters-purple)](#)
 
 > **Paper:** *FlowFake: Liquid Networks for Audio Deepfake Detection*  
 > **Status:** Accepted at the **ICML 2026 ML4Audio Workshop**
 
----
+FlowFake is a lightweight audio deepfake detector built with **Liquid Time-Constant (LTC)** dynamics.
+The core design goal is cross-dataset robustness: learning **universal temporal speech dynamics** instead of memorizing dataset-specific spectral fingerprints.
 
-## Project Overview
+## Why FlowFake?
 
-Existing audio deepfake detectors often degrade under cross-dataset evaluation because they overfit to spectral artifacts tied to specific datasets.
-
-FlowFake addresses this by modeling synthetic speech as **multi-timescale trajectory anomalies** in continuous-time hidden dynamics:
+Many audio deepfake detectors fail under cross-dataset evaluation because they overfit static spectral artifacts.
+FlowFake instead models synthetic speech as **multi-timescale trajectory anomalies** in hidden-state dynamics:
 
 - frame-level spectral discontinuities
 - prosodic inconsistencies
 - abnormal temporal evolution
 
-Instead of relying only on fixed-context transformers or CNNs, FlowFake uses a **continuous-time neural ODE** with adaptive per-neuron time constants.
+Natural speech follows physical articulatory dynamics; synthetic speech often breaks them.
+FlowFake explicitly models this mismatch in continuous time.
 
----
+## Method at a Glance
 
-## Core Idea
+- **Backbone:** Conv1D front-end + LTC-ODE temporal module
+- **Temporal modeling:** adaptive per-neuron time constants (continuous-time dynamics)
+- **Solver:** RK4 with **two ODE unfolds per frame**
+- **Capacity:** ~34K parameters
+- **Output:** bonafide vs spoof
 
-Natural speech follows physical articulatory dynamics, while synthetic speech frequently violates those dynamics.
-
-FlowFake captures these violations through LTC dynamics:
+### Multi-timescale Dynamics
 
 - **Fast neurons** capture short-timescale artifacts (~10–100 ms)
 - **Slow neurons** capture long-timescale prosodic cues (~100 ms–2 s)
 
-This separation allows robust spoof detection under distribution shift.
-
----
+This division helps preserve generalization under distribution shift.
 
 ## Architecture
 
-### Pipeline
+### Processing Pipeline
 
 ```text
 Audio Waveform
@@ -54,7 +52,7 @@ Audio Waveform
 → Bonafide / Spoof
 ```
 
-### LTC Cell Dynamics
+### LTC Cell Components
 
 The LTC cell combines:
 
@@ -62,29 +60,44 @@ The LTC cell combines:
 - recurrent synaptic current (**I_syn**)
 - leak current (**I_leak**)
 
-ODE integration is performed with **RK4** using **two unfolds per frame**.
-
-### Architecture Figure
-
-> Replace this placeholder with the final model diagram.
+### Figure
 
 ![FlowFake Architecture Placeholder](https://placehold.co/1200x420?text=FlowFake+Architecture+Figure+Placeholder)
 
----
-
-## Repository Structure
+## Repository Layout
 
 ```text
 FlowFake/
-├── ASV19/
-├── FOR/
-├── ITW/
-└── MLAADv1/
+├── ASV19/     # ASVspoof LA training + cross-dataset tests
+├── FOR/       # Fake-or-Real training + cross-dataset tests
+├── ITW/       # In-The-Wild training + cross-dataset tests
+└── MLAADv1/   # MLAAD training + cross-dataset tests
 ```
 
-These folders contain dataset-specific training/evaluation scripts and logs for cross-dataset deepfake detection experiments.
+## Quick Start
 
----
+### 1) Environment
+
+Use Python 3.9+ and install core dependencies:
+
+```bash
+pip install torch torchaudio numpy scipy scikit-learn tqdm
+```
+
+### 2) Train on a dataset
+
+Example entry points in this repository:
+
+```bash
+python ASV19/ASV_TRAINED.py --la_root /path/to/ASVspoof2019_LA
+python MLAADv1/MLAAD_TRAIN.py --mlaad_root /path/to/MLAAD
+python FOR/train_FOR.py --root /path/to/FOR
+python ITW/train_ITW.py --root /path/to/ITW --csv meta.csv
+```
+
+### 3) Run cross-dataset evaluation
+
+Cross-dataset evaluation scripts are provided in each dataset folder (e.g., `test_on_LA.py`, `test_on_FOR.py`, `test_on_MLAAD.py`).
 
 ## Citation
 
