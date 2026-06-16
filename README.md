@@ -68,7 +68,7 @@ ODE integration is performed with **RK4** using **two unfolds per frame**.
 
 > Replace this placeholder with the final model diagram.
 
-![FlowFake Architecture Placeholder](docs/figures/flowfake_architecture.png)
+![FlowFake Architecture Placeholder](https://placehold.co/1200x420?text=FlowFake+Architecture+Figure+Placeholder)
 
 ---
 
@@ -98,4 +98,3 @@ If you use FlowFake in your research, please cite:
   year      = {2026}
 }
 ```
-
