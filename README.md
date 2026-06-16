@@ -1,29 +1,29 @@
-# FlowFake: Liquid Networks for Audio Deepfake Detection
+# FlowFake: Liquid Networks for Audio Deepfake Detection 🌊🤖
 
 [![Status](https://img.shields.io/badge/Status-Accepted-success)](#)
 [![Venue](https://img.shields.io/badge/ICML%202026-ML4Audio%20Workshop-blue)](#)
 [![Task](https://img.shields.io/badge/Task-Audio%20Deepfake%20Detection-orange)](#)
 [![Params](https://img.shields.io/badge/Model-~34K%20Parameters-purple)](#)
 
-> **Paper:** *FlowFake: Liquid Networks for Audio Deepfake Detection*  
-> **Status:** Accepted at the **ICML 2026 ML4Audio Workshop**
+> **Paper:** *[FlowFake: Liquid Networks for Audio Deepfake Detection](https://drive.google.com/file/d/1hRLsjtD7B9ZBexY1Z4OILbIpQeulUB7E/view)* 📄  
+> **Status:** Accepted at the **ICML 2026 ML4Audio Workshop** 🏆
 
-FlowFake is a lightweight audio deepfake detector built with **Liquid Time-Constant (LTC)** dynamics.
+FlowFake is a lightweight audio deepfake detector built with **Liquid Time-Constant (LTC)** dynamics 💧.
 The core design goal is cross-dataset robustness: learning **universal temporal speech dynamics** instead of memorizing dataset-specific spectral fingerprints.
 
-## Why FlowFake?
+## Why FlowFake? 🤔
 
 Many audio deepfake detectors fail under cross-dataset evaluation because they overfit static spectral artifacts.
 FlowFake instead models synthetic speech as **multi-timescale trajectory anomalies** in hidden-state dynamics:
 
-- frame-level spectral discontinuities
-- prosodic inconsistencies
-- abnormal temporal evolution
+- ⚡ frame-level spectral discontinuities
+- 🎙️ prosodic inconsistencies
+- ⏳ abnormal temporal evolution
 
 Natural speech follows physical articulatory dynamics; synthetic speech often breaks them.
 FlowFake explicitly models this mismatch in continuous time.
 
-## Method at a Glance
+## Method at a Glance 🔍
 
 - **Backbone:** Conv1D front-end + LTC-ODE temporal module
 - **Temporal modeling:** adaptive per-neuron time constants (continuous-time dynamics)
@@ -31,25 +31,25 @@ FlowFake explicitly models this mismatch in continuous time.
 - **Capacity:** ~34K parameters
 - **Output:** bonafide vs spoof
 
-### Multi-timescale Dynamics
+### Multi-timescale Dynamics 📈
 
 - **Fast neurons** capture short-timescale artifacts (~10–100 ms)
 - **Slow neurons** capture long-timescale prosodic cues (~100 ms–2 s)
 
 This division helps preserve generalization under distribution shift.
 
-## Architecture
+## Architecture 🏗️
 
 ### Processing Pipeline
 
 ```text
-Audio Waveform
-→ Log-Mel Spectrogram
-→ Conv1D Feature Extractor
-→ LTC-ODE Temporal Module
-→ RK4 Solver
-→ Classifier
-→ Bonafide / Spoof
+Audio Waveform 🔊
+→ Log-Mel Spectrogram 📊
+→ Conv1D Feature Extractor 🧩
+→ LTC-ODE Temporal Module 🌊
+→ RK4 Solver ⚙️
+→ Classifier 🧠
+→ Bonafide / Spoof ✅/❌
 ```
 
 ### LTC Cell Components
@@ -106,7 +106,7 @@ If you use FlowFake in your research, please cite:
 ```bibtex
 @inproceedings{flowfake2026,
   title     = {FlowFake: Liquid Networks for Audio Deepfake Detection},
-  author    = {Anonymous},
+  author    = {Shivaay Dhondiyal, Divyansh Sharma},
   booktitle = {ICML 2026 Workshop on Machine Learning for Audio (ML4Audio)},
   year      = {2026}
 }
