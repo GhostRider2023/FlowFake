@@ -16,8 +16,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 from scipy.optimize import brentq
 from scipy.interpolate import interp1d
 
-# %% [code] {"execution":{"iopub.status.busy":"2025-10-07T19:03:55.128937Z","iopub.execute_input":"2025-10-07T19:03:55.129275Z","iopub.status.idle":"2025-10-07T19:03:55.137774Z","shell.execute_reply.started":"2025-10-07T19:03:55.129256Z","shell.execute_reply":"2025-10-07T19:03:55.136999Z"}}
-
 # -------------------- Metrics --------------------
 def compute_eer(y_true, y_score):
     from sklearn.metrics import roc_curve
@@ -61,10 +59,9 @@ def eval_at_threshold(model: nn.Module, loader: DataLoader, device: torch.device
     except (ValueError, RuntimeError) as e:
         print(f"Warning: EER calculation failed: {e}")
         eer = 0.0
-    
+
     return acc, prec, rec, f1, auc, eer, len(y_true)
 
-# %% [code] {"execution":{"iopub.status.busy":"2025-10-07T19:03:57.712702Z","iopub.execute_input":"2025-10-07T19:03:57.712997Z","iopub.status.idle":"2025-10-07T19:03:57.723240Z","shell.execute_reply.started":"2025-10-07T19:03:57.712975Z","shell.execute_reply":"2025-10-07T19:03:57.722418Z"}}
 class MLAADDataset(Dataset):
     def __init__(self, mlaid_root: str, split: str = 'test', sample_rate: int = 16000, n_mels: int = 128, n_fft: int = 1024, hop_length: int = 80):
         self.items: List[Tuple[str, int]] = []
@@ -116,13 +113,12 @@ class MLAADDataset(Dataset):
         mel = torch.log(mel + 1e-6)
         return mel, torch.tensor(label, dtype=torch.long)
 
-# %% [code] {"execution":{"iopub.status.busy":"2025-10-07T19:04:01.799148Z","iopub.execute_input":"2025-10-07T19:04:01.799932Z","iopub.status.idle":"2025-10-07T19:04:01.803843Z","shell.execute_reply.started":"2025-10-07T19:04:01.799906Z","shell.execute_reply":"2025-10-07T19:04:01.803220Z"}}
+
 def make_mlaid_loader(mlaid_root: str, batch_size: int = 128, split: str = 'all'):
     # Use the specified split of MLAAD dataset
     ds = MLAADDataset(mlaid_root, split=split)
     return DataLoader(ds, batch_size=batch_size, shuffle=False, num_workers=0, pin_memory=True)
 
-# %% [code] {"execution":{"iopub.status.busy":"2025-10-07T19:04:03.719541Z","iopub.execute_input":"2025-10-07T19:04:03.719792Z","iopub.status.idle":"2025-10-07T19:04:03.743191Z","shell.execute_reply.started":"2025-10-07T19:04:03.719774Z","shell.execute_reply":"2025-10-07T19:04:03.742397Z"}}
 
 # -------------------- ODE Solvers --------------------
 def euler_step(func, t, y, dt):
@@ -321,10 +317,9 @@ class LiqNNModel(nn.Module):
         out = self.final_fc(h)
         return out
 
-# %% [code] {"execution":{"iopub.status.busy":"2025-10-07T19:04:09.126878Z","iopub.execute_input":"2025-10-07T19:04:09.127144Z","iopub.status.idle":"2025-10-07T19:04:09.130762Z","shell.execute_reply.started":"2025-10-07T19:04:09.127124Z","shell.execute_reply":"2025-10-07T19:04:09.130037Z"}}
+
 _PHASE2_E20_NAME = 'phase2_epoch40.pth'
 
-# %% [code] {"execution":{"iopub.status.busy":"2025-10-07T19:49:20.941816Z","iopub.execute_input":"2025-10-07T19:49:20.942057Z","iopub.status.idle":"2025-10-07T19:49:20.955621Z","shell.execute_reply.started":"2025-10-07T19:49:20.942041Z","shell.execute_reply":"2025-10-07T19:49:20.954950Z"}}
 def main():
     parser = argparse.ArgumentParser(description='Evaluate ASV-trained checkpoints on MLAAD dataset')
     parser.add_argument('--la_save_root', type=str, default="/kaggle/input/final_asv_trained_model/pytorch/default/1", help='Directory containing repeat* folders with LA checkpoints')
@@ -428,6 +423,5 @@ def main():
 
 
 
-# %% [code] {"execution":{"iopub.status.busy":"2025-10-02T09:49:53.276647Z","iopub.execute_input":"2025-10-02T09:49:53.277189Z","iopub.status.idle":"2025-10-02T10:00:41.970457Z","shell.execute_reply.started":"2025-10-02T09:49:53.277167Z","shell.execute_reply":"2025-10-02T10:00:41.969632Z"}}
 if __name__ == '__main__':
     main()
