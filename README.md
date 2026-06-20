@@ -5,7 +5,7 @@
 [![Task](https://img.shields.io/badge/Task-Audio%20Deepfake%20Detection-orange)](#)
 [![Params](https://img.shields.io/badge/Model-~34K%20Parameters-purple)](#)
 
-> **Paper:** *[FlowFake: Liquid Networks for Audio Deepfake Detection](https://drive.google.com/file/d/1hRLsjtD7B9ZBexY1Z4OILbIpQeulUB7E/view)* 📄  
+> **Paper:** *[FlowFake: Liquid Networks for Audio Deepfake Detection](https://arxiv.org/abs/2606.19579)* 📄  
 > **Status:** Accepted at the **ICML 2026 ML4Audio Workshop** 🏆
 
 FlowFake is a lightweight audio deepfake detector built with **Liquid Time-Constant (LTC)** dynamics 💧.
